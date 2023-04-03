@@ -1,0 +1,28 @@
+{
+  "name": "@rompt/root",
+  "version": "0.0.1-alpha",
+  "description": "\"# Rompt\"",
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rompt/rompt-node"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "pnpm --filter \"*\" clean && shx rm -rf pnpm-lock.yaml node_modules",
+    "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
+    "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
+    "publish-commit": "git add . && git commit -m \"Version packages\"",
+    "publish-packages": "pnpm i && turbo build && changeset version && pnpm run publish-commit && pnpm publish -r --access public && git push --follow-tags",
+    "build": "pnpm --filter \"*\" build"
+  },
+  "author": "Rompt",
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "prettier": "^2.8.6",
+    "shx": "^0.3.4",
+    "typescript": "^5.0.2"
+  }
+}

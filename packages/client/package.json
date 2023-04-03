@@ -1,0 +1,17 @@
+{
+  "name": "@rompt/client",
+  "version": "0.0.1-alpha.0",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
+    "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
+    "build": "tsc -p ./tsconfig.json",
+    "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+  }
+}
