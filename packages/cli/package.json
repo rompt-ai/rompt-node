@@ -1,7 +1,9 @@
 {
-  "name": "@rompt/cli",
+  "name": "rompt",
   "version": "0.0.1-alpha.0",
-  "main": "build/index.js",
+  "bin": {
+    "rompt": "build/index.js"
+  },
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
@@ -13,5 +15,8 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
+    "arg": "^5.0.2",
+    "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.3"
   }
 }
