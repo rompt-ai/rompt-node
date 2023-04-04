@@ -5,7 +5,11 @@ import fetch from "cross-fetch";
 
 const apiToken = process.env['ROMPT_API_TOKEN'] || ephemeralDotenv()["ROMPT_API_TOKEN"];
 
-const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[]) => fetch("https://rompt.dev/api/track", {
+const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[], _env?: string) => fetch(_env
+    ?
+    `https://api-${_env}.aws.rompt.ai/track`
+    :
+    "https://api.aws.rompt.ai/track", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -17,7 +21,15 @@ const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[]) => fetch(
 });
 
 const queue = new Queue(function (batch, cb) {
-    sendTrackArr(batch).then(cb)
+    // batch is an array of at most 3 items
+    // [{ generatedPrompt: GeneratedPrompt, options?: TrackOptions }, {...}, {...}}]
+    
+    const { 
+        generatedPrompt, 
+        options = {} 
+    } = batch;
+
+    sendTrackArr(generatedPrompt, options._env).then(cb)
 }, {
     batchSize: 3,
     batchDelay: 3000,
@@ -30,13 +42,13 @@ interface TrackOptions {
 
 export async function track(generatedPrompt: GeneratedPrompt, options?: TrackOptions) {
     const {
-        disableBatching = false
+        disableBatching = false,
     } = options || {};
 
     if (disableBatching) {
-        return sendTrackArr([generatedPrompt]);
+        return sendTrackArr([generatedPrompt], (options || {} as any)._env);
     } else {
-        queue.push(generatedPrompt);
+        queue.push({ generatedPrompt, options });
         return;
     }
 }
