@@ -14,3 +14,11 @@ export type Prompts = Record<
         }>
     }
 >;
+
+export type GeneratedPrompt = {
+    prompt: string;
+    metadata: {
+        branchId: string;
+        id: string;
+    }
+}

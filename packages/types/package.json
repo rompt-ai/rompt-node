@@ -1,0 +1,10 @@
+{
+  "name": "@rompt/types",
+  "version": "0.0.1-alpha.0",
+  "main": "build/index.js",
+  "scripts": {
+    "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
+    "build": "tsc -p ./tsconfig.json",
+    "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
+  }
+}

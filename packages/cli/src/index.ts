@@ -2,8 +2,8 @@
 
 import arg from 'arg';
 import fetch from 'cross-fetch';
-import * as dotenv from 'dotenv';
-import type { Prompts } from './types';
+import { ephemeralDotenv } from '@rompt/common';
+import type { Prompts } from '@rompt/types';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -24,9 +24,9 @@ async function main() {
     if (process.env['ROMPT_API_TOKEN']) {
         apiToken = process.env['ROMPT_API_TOKEN'];
     } else {
-        dotenv.config();
-        if (process.env['ROMPT_API_TOKEN']) {
-            apiToken = process.env['ROMPT_API_TOKEN'];
+        const _apiToken = ephemeralDotenv()['ROMPT_API_TOKEN']
+        if (_apiToken) {
+            apiToken = _apiToken;
         } else {
             throw new Error('ROMPT_API_TOKEN not found');
         }
@@ -46,7 +46,7 @@ async function main() {
     const destination = args['--destination'] || 'prompts.json';
 
     writeFileSync(join(process.cwd(), destination), JSON.stringify(pullResult, null, 2));
-    
+
     console.log(
         `Done! Your prompts are in ${destination}.` + 
         `\n\nNext, install the \`@rompt/client\` package then use it in your code like this:` +

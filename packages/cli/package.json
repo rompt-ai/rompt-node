@@ -11,12 +11,13 @@
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "devDependencies": {
+    "@rompt/types": "workspace:*",
+    "@rompt/common": "workspace:*",
     "@types/node": "^18.15.5",
     "typescript": "^5.0.2"
   },
   "dependencies": {
     "arg": "^5.0.2",
-    "cross-fetch": "^3.1.5",
-    "dotenv": "^16.0.3"
+    "cross-fetch": "^3.1.5"
   }
 }

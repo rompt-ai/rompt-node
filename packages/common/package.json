@@ -1,5 +1,5 @@
 {
-  "name": "@rompt/client",
+  "name": "@rompt/common",
   "version": "0.0.1-alpha.0",
   "main": "build/index.js",
   "scripts": {
@@ -9,14 +9,10 @@
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
   },
   "devDependencies": {
-    "@rompt/types": "workspace:*",
-    "@types/better-queue": "^3.8.3",
     "@types/node": "^18.15.5",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "@rompt/types": "workspace:*"
   },
   "dependencies": {
-    "@rompt/common": "workspace:*",
-    "better-queue": "^3.8.12",
-    "cross-fetch": "^3.1.5"
   }
 }

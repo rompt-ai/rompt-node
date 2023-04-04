@@ -16,28 +16,60 @@ importers:
 
   packages/cli:
     specifiers:
+      '@rompt/common': workspace:*
+      '@rompt/types': workspace:*
       '@types/node': ^18.15.5
       arg: ^5.0.2
       cross-fetch: ^3.1.5
-      dotenv: ^16.0.3
       typescript: ^5.0.2
     dependencies:
       arg: 5.0.2
       cross-fetch: 3.1.5
-      dotenv: 16.0.3
     devDependencies:
+      '@rompt/common': link:../common
+      '@rompt/types': link:../types
       '@types/node': 18.15.11
       typescript: 5.0.3
 
   packages/client:
     specifiers:
+      '@rompt/common': workspace:*
+      '@rompt/types': workspace:*
+      '@types/better-queue': ^3.8.3
       '@types/node': ^18.15.5
+      better-queue: ^3.8.12
+      cross-fetch: ^3.1.5
       typescript: ^5.0.2
+    dependencies:
+      '@rompt/common': link:../common
+      better-queue: 3.8.12
+      cross-fetch: 3.1.5
     devDependencies:
+      '@rompt/types': link:../types
+      '@types/better-queue': 3.8.3
       '@types/node': 18.15.11
       typescript: 5.0.3
 
+  packages/common:
+    specifiers:
+      '@rompt/types': workspace:*
+      '@types/node': ^18.15.5
+      typescript: ^5.0.2
+    devDependencies:
+      '@rompt/types': link:../types
+      '@types/node': 18.15.11
+      typescript: 5.0.3
+
+  packages/types:
+    specifiers: {}
+
 packages:
+
+  /@types/better-queue/3.8.3:
+    resolution: {integrity: sha512-xCWSF5i1CJMq271mGjK4MrAzIEFNFKVv/eMtL8eUyD4rOOcx1SBs2zhcQxVkWjCz2TVMQOUUxwkgWyDDyvw+rw==}
+    dependencies:
+      '@types/node': 18.15.11
+    dev: true
 
   /@types/node/18.15.11:
     resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==}
@@ -50,6 +82,18 @@ packages:
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
+
+  /better-queue-memory/1.0.4:
+    resolution: {integrity: sha512-SWg5wFIShYffEmJpI6LgbL8/3Dqhku7xI1oEiy6FroP9DbcZlG0ZDjxvPdP9t7hTGW40IpIcC6zVoGT1oxjOuA==}
+    dev: false
+
+  /better-queue/3.8.12:
+    resolution: {integrity: sha512-D9KZ+Us+2AyaCz693/9AyjTg0s8hEmkiM/MB3i09cs4MdK1KgTSGJluXRYmOulR69oLZVo2XDFtqsExDt8oiLA==}
+    dependencies:
+      better-queue-memory: 1.0.4
+      node-eta: 0.9.0
+      uuid: 9.0.0
+    dev: false
 
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -68,11 +112,6 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /dotenv/16.0.3:
-    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
-    engines: {node: '>=12'}
     dev: false
 
   /fs.realpath/1.0.0:
@@ -132,6 +171,10 @@ packages:
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
+
+  /node-eta/0.9.0:
+    resolution: {integrity: sha512-mTCTZk29tmX1OGfVkPt63H3c3VqXrI2Kvua98S7iUIB/Gbp0MNw05YtUomxQIxnnKMyRIIuY9izPcFixzhSBrA==}
+    dev: false
 
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -215,6 +258,11 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
     dev: true
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
