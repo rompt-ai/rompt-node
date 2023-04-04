@@ -15,10 +15,14 @@ export type Prompts = Record<
     }
 >;
 
+export type TemplateObject = Record<string, string>;
+
 export type GeneratedPrompt = {
     prompt: string;
     metadata: {
         branchId: string;
-        id: string;
+        promptId: string;
+        version: number;
+        template: TemplateObject;
     };
 };

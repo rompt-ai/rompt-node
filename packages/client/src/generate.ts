@@ -1,15 +1,13 @@
 import { fileToPrompts } from './cache';
 import { readFileSync } from 'fs';
-import type { Prompts, GeneratedPrompt } from '@rompt/types';
+import type { Prompts, GeneratedPrompt, TemplateObject } from '@rompt/types';
 
 interface GenerateSettings {
     promptFilePath: string;
     version: number | 'latest';
 }
 
-type TemplateObject = Record<string, string>;
-
-export function generate(promptName: string, templateObject: TemplateObject, options?: GenerateSettings): GeneratedPrompt {
+export function generate(promptName: string, templateObject?: TemplateObject, options?: GenerateSettings): GeneratedPrompt {
     const { promptFilePath = 'prompts.json', version = 'latest' } = options || {};
 
     if (!fileToPrompts[promptFilePath]) {
@@ -21,15 +19,18 @@ export function generate(promptName: string, templateObject: TemplateObject, opt
         }
     }
 
-    const { branchId, id, versions } = fileToPrompts[promptFilePath][promptName];
+    const { branchId, id: promptId, versions } = fileToPrompts[promptFilePath][promptName];
 
-    const { parts } = versions[version === 'latest' ? Math.max(...Object.keys(versions).map((ele) => Number(ele))) : version];
+    const versionNumber = version === 'latest' ? Math.max(...Object.keys(versions).map((ele) => Number(ele))) : version;
+    const { parts } = versions[versionNumber];
 
     return {
-        prompt: generateString(parts, templateObject),
+        prompt: generateString(parts, templateObject || {}),
         metadata: {
             branchId,
-            id,
+            promptId,
+            version: versionNumber,
+            template: templateObject || {},
         },
     };
 }
