@@ -7,7 +7,8 @@
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
-    "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo"
+    "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
+    "bump": "npm version patch --force"
   },
   "devDependencies": {
     "@rompt/types": "workspace:*",

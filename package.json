@@ -15,7 +15,7 @@
     "prettier-format": "prettier --config prettier.config.js 'packages/*/src/**/*{.ts,.tsx,.js,.jsx}' --write",
     "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
     "publish-commit": "git add . && git commit -m \"Version packages\"",
-    "publish-packages": "pnpm i && turbo build && changeset version && pnpm run publish-commit && pnpm publish -r --access public && git push --follow-tags",
+    "publish-packages": "pnpm i && pnpm build && changeset version && pnpm run publish-commit && pnpm publish -r --access public && git push --follow-tags",
     "build": "pnpm --filter \"*\" build"
   },
   "author": "Rompt",
