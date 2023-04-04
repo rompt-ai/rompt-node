@@ -2,7 +2,7 @@
   "name": "rompt",
   "version": "1.0.2",
   "bin": {
-    "rompt": "build/index.js"
+    "rompt": "build/bin.js"
   },
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
@@ -11,8 +11,8 @@
     "bump": "npm version patch --force"
   },
   "devDependencies": {
-    "@rompt/types": "workspace:*",
     "@rompt/common": "workspace:*",
+    "@rompt/types": "workspace:*",
     "@types/node": "^18.15.5",
     "typescript": "^5.0.2"
   },

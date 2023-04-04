@@ -21,10 +21,16 @@
   },
   "author": "Rompt",
   "devDependencies": {
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.15.5",
     "bumpp": "^9.1.0",
+    "expect": "^29.5.0",
+    "mocha": "^10.2.0",
     "prettier": "^2.8.6",
     "shx": "^0.3.4",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   }
 }

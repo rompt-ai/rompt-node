@@ -1,7 +1,4 @@
-#! /usr/bin/env node
-
 import arg from 'arg';
-import fetch from 'cross-fetch';
 import { ephemeralDotenv } from '@rompt/common';
 import type { Prompts } from '@rompt/types';
 import { writeFileSync } from 'fs';
@@ -16,7 +13,7 @@ const args = arg({
     '-d': '--destination',
 });
 
-async function main() {
+export async function pull() {
     const env = args['--_env'] || 'prod';
     const rootApi = env ? `api-${env}.aws.rompt.ai` : 'api.aws.rompt.ai';
 
@@ -57,12 +54,3 @@ async function main() {
             `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`,
     );
 }
-
-main()
-    .then(() => {
-        process.exit(0);
-    })
-    .catch((err) => {
-        console.error(err);
-        process.exit(1);
-    });
