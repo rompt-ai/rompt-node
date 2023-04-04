@@ -17,7 +17,8 @@
     "publish-commit": "git add . && git commit -m \"Version packages\"",
     "publish-packages": "pnpm i && pnpm build && pnpm bump && pnpm run publish-commit && pnpm publish -r --access public && git push --follow-tags",
     "build": "pnpm --filter \"*\" build",
-    "bump": "pnpm bumpp --no-push --no-tag --no-commit --no-verify --ignore-scripts -r"
+    "bump": "pnpm bumpp --no-push --no-tag --no-commit --no-verify --ignore-scripts -r",
+    "test": "ts-mocha --inline-diffs --paths packages/test/**/*.spec.ts --timeout 50000"
   },
   "author": "Rompt",
   "devDependencies": {

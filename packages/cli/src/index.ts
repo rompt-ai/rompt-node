@@ -1,33 +1,27 @@
-import arg from 'arg';
-import { ephemeralDotenv, debugLog } from '@rompt/common';
+import { getApiToken, debugLog } from '@rompt/common';
 import type { Prompts } from '@rompt/types';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
+import fetch from 'cross-fetch';
 
 interface Pull {
     'branch'?: string;
     'destination'?: string;
     '_env'?: string;
+    '_dry'?: boolean;
 }
 
 export async function pull({
     branch,
     destination = 'prompts.json',
-    _env = 'prod'
-}: Pull) {
+    _env = 'prod',
+    _dry = false
+}: Pull): Promise<Prompts> {
     const rootApi = _env ? `api-${_env}.aws.rompt.ai` : 'api.aws.rompt.ai';
+    debugLog(_env, "CWD ", process.cwd())
 
-    let apiToken: string;
-    if (process.env['ROMPT_API_TOKEN']) {
-        apiToken = process.env['ROMPT_API_TOKEN'];
-    } else {
-        const _apiToken = ephemeralDotenv()['ROMPT_API_TOKEN'];
-        if (_apiToken) {
-            apiToken = _apiToken;
-        } else {
-            throw new Error('ROMPT_API_TOKEN not found');
-        }
-    }
+    const apiToken = getApiToken();
+
     debugLog(_env,
         `Pulling prompts from branch ${branch}.`,
         JSON.stringify({
@@ -52,7 +46,9 @@ export async function pull({
     }).then((res) => res.json() as Promise<Prompts>);
     debugLog(_env, `Pull result: ${JSON.stringify(pullResult, null, 2)}`);
 
-    writeFileSync(join(process.cwd(), destination), JSON.stringify(pullResult, null, 2));
+    if (!_dry) {
+        writeFileSync(join(process.cwd(), destination), JSON.stringify(pullResult, null, 2));
+    }
 
     console.log(
         `Done! Your prompts are in ${destination}.` +
@@ -63,4 +59,6 @@ export async function pull({
         `\n\n// Example with OpenAI:` +
         `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`,
     );
+    
+    return pullResult;
 }

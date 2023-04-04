@@ -6,7 +6,8 @@
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
-    "bump": "npm version patch --force"
+    "bump": "npm version patch --force",
+    "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000"
   },
   "devDependencies": {
     "@rompt/types": "workspace:*",

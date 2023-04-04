@@ -1,10 +1,10 @@
-import { ephemeralDotenv } from '@rompt/common';
+import { getApiToken } from '@rompt/common';
 import { GeneratedPrompt } from '@rompt/types';
 import Queue from 'better-queue';
 import fetch from 'cross-fetch';
 import { isAwsEnv } from './cache';
 
-const apiToken = process.env['ROMPT_API_TOKEN'] || ephemeralDotenv()['ROMPT_API_TOKEN'];
+const apiToken = getApiToken();
 
 const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[], _env?: string) =>
     fetch(_env ? `https://api-${_env}.aws.rompt.ai/track` : 'https://api.aws.rompt.ai/track', {
@@ -22,9 +22,7 @@ const queue = new Queue(
     function (batch, cb) {
         // batch is an array of at most 3 items
         // [{ generatedPrompt: GeneratedPrompt, options?: TrackOptions }, {...}, {...}}]
-
         const { generatedPrompt, options = {} } = batch;
-
         sendTrackArr(generatedPrompt, options._env).then(cb);
     },
     {
@@ -34,13 +32,13 @@ const queue = new Queue(
 );
 
 interface TrackOptions {
-    disableBatching?: boolean;
+    enableBatching?: boolean;
 }
 
 export async function track(generatedPrompt: GeneratedPrompt, options?: TrackOptions) {
-    const { disableBatching = false } = options || {};
+    const { enableBatching = true } = options || {};
 
-    if (disableBatching || isAwsEnv()) {
+    if (!enableBatching || isAwsEnv()) {
         return sendTrackArr([generatedPrompt], (options || ({} as any))._env);
     } else {
         queue.push({ generatedPrompt, options });
