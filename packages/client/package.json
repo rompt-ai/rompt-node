@@ -1,6 +1,6 @@
 {
   "name": "@rompt/client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",

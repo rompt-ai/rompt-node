@@ -1,6 +1,6 @@
 {
   "name": "@rompt/root",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "\"# Rompt\"",
   "workspaces": [
     "packages/*"
@@ -16,11 +16,13 @@
     "find-circular-deps": "pnpx madge --circular --extensions ts,tsx packages/",
     "publish-commit": "git add . && git commit -m \"Version packages\"",
     "publish-packages": "pnpm i && pnpm build && changeset version && pnpm run publish-commit && pnpm publish -r --access public && git push --follow-tags",
-    "build": "pnpm --filter \"*\" build"
+    "build": "pnpm --filter \"*\" build",
+    "bump": "pnpm bumpp --no-push -r"
   },
   "author": "Rompt",
   "devDependencies": {
     "@types/node": "^18.15.5",
+    "bumpp": "^9.1.0",
     "prettier": "^2.8.6",
     "shx": "^0.3.4",
     "typescript": "^5.0.2"

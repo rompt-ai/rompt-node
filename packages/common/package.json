@@ -1,6 +1,6 @@
 {
   "name": "@rompt/common",
-  "version": "0.0.1-alpha.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
@@ -14,6 +14,5 @@
     "typescript": "^5.0.2",
     "@rompt/types": "workspace:*"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

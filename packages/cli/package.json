@@ -1,6 +1,6 @@
 {
   "name": "rompt",
-  "version": "1.0.0s",
+  "version": "1.0.1",
   "bin": {
     "rompt": "build/index.js"
   },
