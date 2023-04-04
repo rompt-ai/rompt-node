@@ -1,6 +1,6 @@
 {
   "name": "@rompt/types",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "build/index.js",
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",

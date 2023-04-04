@@ -10,7 +10,7 @@ export function ephemeralDotenv() {
         const lines = content.split('\n');
         _env = {};
 
-        lines.forEach(line => {
+        lines.forEach((line) => {
             const [key, value] = line.split('=');
             if (key && value) {
                 _env![key.trim()] = value.trim();

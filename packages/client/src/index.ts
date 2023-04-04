@@ -1,2 +1,2 @@
-export * from "./generate";
-export * from "./track";
+export * from './generate';
+export * from './track';

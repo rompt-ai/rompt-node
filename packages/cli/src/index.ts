@@ -18,13 +18,13 @@ const args = arg({
 
 async function main() {
     const env = args['--_env'] || 'prod';
-    const rootApi = env ? `api-${env}.aws.rompt.ai` : "api.aws.rompt.ai";
+    const rootApi = env ? `api-${env}.aws.rompt.ai` : 'api.aws.rompt.ai';
 
     let apiToken: string;
     if (process.env['ROMPT_API_TOKEN']) {
         apiToken = process.env['ROMPT_API_TOKEN'];
     } else {
-        const _apiToken = ephemeralDotenv()['ROMPT_API_TOKEN']
+        const _apiToken = ephemeralDotenv()['ROMPT_API_TOKEN'];
         if (_apiToken) {
             apiToken = _apiToken;
         } else {
@@ -33,14 +33,14 @@ async function main() {
     }
 
     const pullResult = await fetch(`https://${rootApi}/pull`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
             apiToken,
             branch: args['--branch'],
         }),
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
     }).then((res) => res.json() as Promise<Prompts>);
 
     const destination = args['--destination'] || 'prompts.json';
@@ -48,13 +48,13 @@ async function main() {
     writeFileSync(join(process.cwd(), destination), JSON.stringify(pullResult, null, 2));
 
     console.log(
-        `Done! Your prompts are in ${destination}.` + 
-        `\n\nNext, install the \`@rompt/client\` package then use it in your code like this:` +
-        `\n\n\nconst romptData = generate("your-prompt-name", {\n  NAME: "Michael",\n  DIRECTION: "Generate a Tweet",\n  SENTIMENT: \`Make the Tweet about \$\{myOtherVariable\}\`\n})` +
-        `\n\nconst { prompt } = romptData;` +
-        `\n\n// Your generated prompt is in \`prompt\`` +
-        `\n\n// Example with OpenAI:` +
-        `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`
+        `Done! Your prompts are in ${destination}.` +
+            `\n\nNext, install the \`@rompt/client\` package then use it in your code like this:` +
+            `\n\n\nconst romptData = generate("your-prompt-name", {\n  NAME: "Michael",\n  DIRECTION: "Generate a Tweet",\n  SENTIMENT: \`Make the Tweet about \$\{myOtherVariable\}\`\n})` +
+            `\n\nconst { prompt } = romptData;` +
+            `\n\n// Your generated prompt is in \`prompt\`` +
+            `\n\n// Example with OpenAI:` +
+            `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`,
     );
 }
 
@@ -65,4 +65,4 @@ main()
     .catch((err) => {
         console.error(err);
         process.exit(1);
-    })
+    });
