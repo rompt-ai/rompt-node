@@ -14,8 +14,9 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "@rompt/common": "workspace:*",
     "@rompt/client": "workspace:*",
+    "@rompt/common": "workspace:*",
+    "dotenv": "^16.0.3",
     "rompt": "workspace:*"
   }
 }

@@ -2,6 +2,7 @@ import { ephemeralDotenv } from '@rompt/common';
 import { GeneratedPrompt } from '@rompt/types';
 import Queue from 'better-queue';
 import fetch from 'cross-fetch';
+import { isAwsEnv } from './cache';
 
 const apiToken = process.env['ROMPT_API_TOKEN'] || ephemeralDotenv()['ROMPT_API_TOKEN'];
 
@@ -39,7 +40,7 @@ interface TrackOptions {
 export async function track(generatedPrompt: GeneratedPrompt, options?: TrackOptions) {
     const { disableBatching = false } = options || {};
 
-    if (disableBatching) {
+    if (disableBatching || isAwsEnv()) {
         return sendTrackArr([generatedPrompt], (options || ({} as any))._env);
     } else {
         queue.push({ generatedPrompt, options });

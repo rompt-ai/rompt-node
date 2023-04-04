@@ -20,3 +20,9 @@ export function ephemeralDotenv() {
 
     return _env;
 }
+
+export const debugLog = (env: "prod" | string, ...messages: any) => {
+    if (env !== "prod") {
+        console.log(...messages);
+    }
+}
