@@ -12,7 +12,7 @@ describe('CLI pull', () => {
     });
 
     it('Generate Prompt', async () => {
-        const arr = await pull({
+        await pull({
             _env: 'staging',
         });
 
@@ -21,15 +21,18 @@ describe('CLI pull', () => {
     });
 
     it('Track Prompt', async () => {
-        const arr = await pull({
+        await pull({
             _env: 'staging',
         });
 
         const result = generate('test', {});
-        const trackResponse = await track(result);
+        const trackResponse = await track(result, { _env: 'staging' } as any);
+
         if (trackResponse) {
             const { success } = await trackResponse.json();
             expect(success).toBe(true);
+        } else {
+            throw new Error('No track response');
         }
     });
 })

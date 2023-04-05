@@ -36,7 +36,7 @@ interface TrackOptions {
 }
 
 export async function track(generatedPrompt: GeneratedPrompt, options?: TrackOptions) {
-    const { enableBatching = true } = options || {};
+    const { enableBatching = false } = options || {};
 
     if (!enableBatching || isAwsEnv()) {
         return sendTrackArr([generatedPrompt], (options || ({} as any))._env);
