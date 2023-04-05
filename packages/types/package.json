@@ -1,6 +1,6 @@
 {
-  "name": "@rompt/types",
-  "version": "1.0.5",
+  "name": "@romptai/types",
+  "version": "1.0.6",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
