@@ -5,6 +5,22 @@ import fetch from 'cross-fetch';
 import { isAwsLambdaEnv } from './cache';
 import type { CreateChatCompletionResponse, CreateCompletionResponse } from 'openai';
 
+function isResponseChatCompletion(response: any): response is CreateChatCompletionResponse {
+    if (Array.isArray(response.choices)) {
+        const firstChoice = response.choices[0];
+        return !!firstChoice.message
+    }
+    return false;
+}
+
+function isResponseCompletion(response: any): response is CreateCompletionResponse {
+    if (Array.isArray(response.choices)) {
+        const firstChoice = response.choices[0];
+        return !!firstChoice.text
+    }
+    return false;
+}
+
 const sendTrackArr = (
     generatedPromptsWithResponseArr: readonly GeneratedPromptWithResponse[],
     apiToken: string,
@@ -25,12 +41,12 @@ const queue = new Queue(
     function (batch, cb) {
         // batch is an array of at most 3 items
         // [{ generatedPrompt: GeneratedPrompt, options?: TrackOptions }, {...}, {...}}]
-        const { 
+        const {
             options,
         } = batch[0];
         sendTrackArr(
-            batch.map((ele: any) => ele.generatedPromptWithResponse), 
-            options.apiToken || getApiToken(), 
+            batch.map((ele: any) => ele.generatedPromptWithResponse),
+            options.apiToken || getApiToken(),
             options._env
         ).then(cb);
     },
@@ -46,13 +62,32 @@ interface TrackOptions {
 }
 
 export async function track(
-    generatedPrompt: GeneratedPrompt, 
-    response?: CreateChatCompletionResponse | CreateCompletionResponse, 
+    generatedPrompt: GeneratedPrompt,
+    response?: CreateChatCompletionResponse | CreateCompletionResponse,
     options: TrackOptions = {}
 ) {
+
+    let strippedResponse: GeneratedPromptWithResponse['response'] = undefined;
+
+    if (response) {
+        if (isResponseChatCompletion(response)) {
+            strippedResponse = {
+                model: response.model,
+                choices: JSON.stringify(response.choices),
+                responseType: 'openai.chatCompletion'
+            }
+        } else if (isResponseCompletion(response)) {
+            strippedResponse = {
+                model: response.model,
+                choices: JSON.stringify(response.choices),
+                responseType: 'openai.chatCompletion'
+            }
+        }
+    }
+
     const generatedPromptWithResponse: GeneratedPromptWithResponse = {
         ...generatedPrompt,
-        response,
+        response: strippedResponse,
     };
 
     if (options.enableBatching && !isAwsLambdaEnv()) {

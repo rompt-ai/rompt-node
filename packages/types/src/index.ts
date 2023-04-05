@@ -1,5 +1,3 @@
-import type { CreateChatCompletionResponse, CreateCompletionResponse } from 'openai';
-
 type FlattenedItem = { type: 'text'; content: string } | { type: 'variable'; content: string; description: string } | { type: 'paragraph' };
 
 export type Prompts = Record<
@@ -30,5 +28,9 @@ export type GeneratedPrompt = {
 };
 
 export type GeneratedPromptWithResponse = GeneratedPrompt & {
-    response?: CreateChatCompletionResponse | CreateCompletionResponse;
+    response?: {
+        model: string;
+        choices: string;
+        responseType: 'openai.chatCompletion' | 'openai.completion'
+    }
 };

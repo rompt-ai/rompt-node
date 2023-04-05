@@ -1,6 +1,6 @@
 {
   "name": "@romptai/types",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
@@ -8,8 +8,5 @@
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
     "bump": "npm version patch --force"
-  },
-  "devDependencies": {
-    "openai": "^3.2.1"
   }
 }

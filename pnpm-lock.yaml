@@ -96,10 +96,7 @@ importers:
       typescript: 5.0.3
 
   packages/types:
-    specifiers:
-      openai: ^3.2.1
-    devDependencies:
-      openai: 3.2.1
+    specifiers: {}
 
 packages:
 
