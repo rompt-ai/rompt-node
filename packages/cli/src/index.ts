@@ -20,8 +20,6 @@ export async function pull({
     _dry = false
 }: Pull): Promise<Prompts> {
     const rootApi = _env ? `api-${_env}.aws.rompt.ai` : 'api.aws.rompt.ai';
-    debugLog(_env, "CWD ", process.cwd())
-
     const _apiToken = apiToken || getApiToken();
 
     debugLog(_env,
@@ -39,28 +37,26 @@ export async function pull({
     const pullResult = await fetch(`https://${rootApi}/pull`, {
         method: 'POST',
         body: JSON.stringify({
-            apiToken,
+            apiToken: _apiToken,
             branch,
         }),
         headers: {
             'Content-Type': 'application/json',
         },
     }).then((res) => res.json() as Promise<Prompts>);
-    debugLog(_env, `Pull result: ${JSON.stringify(pullResult, null, 2)}`);
 
     if (!_dry) {
         writeFileSync(join(process.cwd(), destination), JSON.stringify(pullResult, null, 2));
+        console.log(
+            `Done! Your prompts are in ${destination}.` +
+            `\n\nNext, install the \`@romptai/client\` package then use it in your code like this:` +
+            `\n\n\nconst romptData = generate("your-prompt-name", {\n  NAME: "Michael",\n  DIRECTION: "Generate a Tweet",\n  SENTIMENT: \`Make the Tweet about \$\{myOtherVariable\}\`\n})` +
+            `\n\nconst { prompt } = romptData;` +
+            `\n\n// Your generated prompt is in \`prompt\`` +
+            `\n\n// Example with OpenAI:` +
+            `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`,
+        );
     }
-
-    console.log(
-        `Done! Your prompts are in ${destination}.` +
-        `\n\nNext, install the \`@romptai/client\` package then use it in your code like this:` +
-        `\n\n\nconst romptData = generate("your-prompt-name", {\n  NAME: "Michael",\n  DIRECTION: "Generate a Tweet",\n  SENTIMENT: \`Make the Tweet about \$\{myOtherVariable\}\`\n})` +
-        `\n\nconst { prompt } = romptData;` +
-        `\n\n// Your generated prompt is in \`prompt\`` +
-        `\n\n// Example with OpenAI:` +
-        `\n\nconst gptResponse = await openai.createCompletion({\n  prompt,\n  //...\n});`,
-    );
     
     return pullResult;
 }

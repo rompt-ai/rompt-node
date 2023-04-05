@@ -91,9 +91,9 @@ export async function track(
     };
 
     if (options.enableBatching && !isAwsLambdaEnv()) {
-        return sendTrackArr([generatedPromptWithResponse], options.apiToken || getApiToken(), (options as any)._env);
-    } else {
         queue.push({ generatedPromptWithResponse, options, });
         return;
+    } else {
+        return sendTrackArr([generatedPromptWithResponse], options.apiToken || getApiToken(), (options as any)._env);
     }
 }

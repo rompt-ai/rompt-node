@@ -4,21 +4,24 @@ import { generate, track } from '@romptai/client';
 import { 
     Configuration as OpenAIConfiguration,
     OpenAIApi,
-    CreateChatCompletionRequest
 } from 'openai';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // A .env file is required in the root of the project
-describe('Rompt Testt', () => {
+describe('Rompt Test', () => {
     it('CLI Pull', async () => {
         const arr = await pull({
             _env: 'staging',
+            _dry: true
         });
-        expect(Object.keys(arr).length).toBeGreaterThan(0);
+        expect(arr['_errors']).toBeFalsy();
     });
 
     it('Generate Prompt', async () => {
         await pull({
             _env: 'staging',
+            _dry: true,
         });
 
         const result = generate('test', {});
@@ -28,6 +31,7 @@ describe('Rompt Testt', () => {
     it('Track Prompt Without Response', async () => {
         await pull({
             _env: 'staging',
+            _dry: true,
         });
 
         const result = generate('test', {});
@@ -44,6 +48,7 @@ describe('Rompt Testt', () => {
     it('Track Prompt With Chat Completion Response', async () => {
         await pull({
             _env: 'staging',
+            _dry: true,
         });
 
         const result = generate('test', {});
@@ -74,6 +79,7 @@ describe('Rompt Testt', () => {
     it('Track Prompt With Completion Response', async () => {
         await pull({
             _env: 'staging',
+            _dry: true,
         });
 
         const result = generate('test', {});
@@ -83,7 +89,7 @@ describe('Rompt Testt', () => {
         });
         const openai = new OpenAIApi(openaiConfig);
         const completion = await openai.createCompletion({
-            model: "gpt-3.5-turbo",
+            model: "text-davinci-003",
             prompt: result.prompt
         });
         const trackResponse = await track(result, completion.data, { _env: 'staging' } as any);
