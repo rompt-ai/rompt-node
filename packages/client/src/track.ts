@@ -1,12 +1,15 @@
-import { getApiToken } from '@rompt/common';
-import { GeneratedPrompt } from '@rompt/types';
+import { getApiToken } from '@romptai/common';
+import { GeneratedPrompt, GeneratedPromptWithResponse } from '@romptai/types';
 import Queue from 'better-queue';
 import fetch from 'cross-fetch';
-import { isAwsEnv } from './cache';
+import { isAwsLambdaEnv } from './cache';
+import type { CreateChatCompletionResponse, CreateCompletionResponse } from 'openai';
 
-const apiToken = getApiToken();
-
-const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[], _env?: string) =>
+const sendTrackArr = (
+    generatedPromptsWithResponseArr: readonly GeneratedPromptWithResponse[],
+    apiToken: string,
+    _env?: string
+) =>
     fetch(_env ? `https://api-${_env}.aws.rompt.ai/track` : 'https://api.aws.rompt.ai/track', {
         method: 'POST',
         headers: {
@@ -14,7 +17,7 @@ const sendTrackArr = (generatedPromptsArr: readonly GeneratedPrompt[], _env?: st
         },
         body: JSON.stringify({
             apiToken,
-            tracks: generatedPromptsArr,
+            tracks: generatedPromptsWithResponseArr,
         }),
     });
 
@@ -22,8 +25,14 @@ const queue = new Queue(
     function (batch, cb) {
         // batch is an array of at most 3 items
         // [{ generatedPrompt: GeneratedPrompt, options?: TrackOptions }, {...}, {...}}]
-        const { generatedPrompt, options = {} } = batch;
-        sendTrackArr(generatedPrompt, options._env).then(cb);
+        const { 
+            options,
+        } = batch[0];
+        sendTrackArr(
+            batch.map((ele: any) => ele.generatedPromptWithResponse), 
+            options.apiToken || getApiToken(), 
+            options._env
+        ).then(cb);
     },
     {
         batchSize: 3,
@@ -33,15 +42,23 @@ const queue = new Queue(
 
 interface TrackOptions {
     enableBatching?: boolean;
+    apiToken?: string;
 }
 
-export async function track(generatedPrompt: GeneratedPrompt, options?: TrackOptions) {
-    const { enableBatching = false } = options || {};
+export async function track(
+    generatedPrompt: GeneratedPrompt, 
+    response?: CreateChatCompletionResponse | CreateCompletionResponse, 
+    options: TrackOptions = {}
+) {
+    const generatedPromptWithResponse: GeneratedPromptWithResponse = {
+        ...generatedPrompt,
+        response,
+    };
 
-    if (!enableBatching || isAwsEnv()) {
-        return sendTrackArr([generatedPrompt], (options || ({} as any))._env);
+    if (options.enableBatching && !isAwsLambdaEnv()) {
+        return sendTrackArr([generatedPromptWithResponse], options.apiToken || getApiToken(), (options as any)._env);
     } else {
-        queue.push({ generatedPrompt, options });
+        queue.push({ generatedPromptWithResponse, options, });
         return;
     }
 }

@@ -8,5 +8,8 @@
     "build": "tsc -p ./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
     "bump": "npm version patch --force"
+  },
+  "devDependencies": {
+    "openai": "^3.2.1"
   }
 }

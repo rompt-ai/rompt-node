@@ -10,14 +10,15 @@
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000"
   },
   "devDependencies": {
-    "@rompt/types": "workspace:*",
+    "@romptai/types": "workspace:*",
     "@types/node": "^18.15.5",
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "@rompt/client": "workspace:*",
-    "@rompt/common": "workspace:*",
+    "@romptai/cli": "workspace:*",
+    "@romptai/client": "workspace:*",
+    "@romptai/common": "workspace:*",
     "dotenv": "^16.0.3",
-    "rompt": "workspace:*"
+    "openai": "^3.2.1"
   }
 }

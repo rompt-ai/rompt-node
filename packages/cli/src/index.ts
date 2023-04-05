@@ -1,5 +1,5 @@
-import { getApiToken, debugLog } from '@rompt/common';
-import type { Prompts } from '@rompt/types';
+import { getApiToken, debugLog } from '@romptai/common';
+import type { Prompts } from '@romptai/types';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import fetch from 'cross-fetch';
@@ -7,6 +7,7 @@ import fetch from 'cross-fetch';
 interface Pull {
     'branch'?: string;
     'destination'?: string;
+    'apiToken'?: string;
     '_env'?: string;
     '_dry'?: boolean;
 }
@@ -14,13 +15,14 @@ interface Pull {
 export async function pull({
     branch,
     destination = 'prompts.json',
+    apiToken,
     _env = 'prod',
     _dry = false
 }: Pull): Promise<Prompts> {
     const rootApi = _env ? `api-${_env}.aws.rompt.ai` : 'api.aws.rompt.ai';
     debugLog(_env, "CWD ", process.cwd())
 
-    const apiToken = getApiToken();
+    const _apiToken = apiToken || getApiToken();
 
     debugLog(_env,
         `Pulling prompts from branch ${branch}.`,
@@ -28,7 +30,7 @@ export async function pull({
             branch,
             destination,
             env: _env,
-            apiToken,
+            apiToken: _apiToken,
             rootApi,
             cwd: process.cwd()
         }, null, 2)
@@ -52,7 +54,7 @@ export async function pull({
 
     console.log(
         `Done! Your prompts are in ${destination}.` +
-        `\n\nNext, install the \`@rompt/client\` package then use it in your code like this:` +
+        `\n\nNext, install the \`@romptai/client\` package then use it in your code like this:` +
         `\n\n\nconst romptData = generate("your-prompt-name", {\n  NAME: "Michael",\n  DIRECTION: "Generate a Tweet",\n  SENTIMENT: \`Make the Tweet about \$\{myOtherVariable\}\`\n})` +
         `\n\nconst { prompt } = romptData;` +
         `\n\n// Your generated prompt is in \`prompt\`` +

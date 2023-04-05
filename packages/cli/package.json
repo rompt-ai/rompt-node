@@ -12,8 +12,8 @@
     "bump": "npm version patch --force"
   },
   "devDependencies": {
-    "@rompt/common": "workspace:*",
-    "@rompt/types": "workspace:*",
+    "@romptai/common": "workspace:*",
+    "@romptai/types": "workspace:*",
     "@types/node": "^18.15.5",
     "typescript": "^5.0.2"
   },

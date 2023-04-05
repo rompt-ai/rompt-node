@@ -6,6 +6,7 @@ import arg from 'arg';
 const args = arg({
     '--branch': String,
     '--destination': String,
+    '--apiToken': String,
     '--_env': String,
     '--_dry': Boolean,
 
@@ -16,6 +17,7 @@ const args = arg({
 pull({
     branch: args['--branch'],
     destination: args['--destination'],
+    apiToken: args['--apiToken'],
     _env: args['--_env'],
     _dry: args['--_dry'],
 })

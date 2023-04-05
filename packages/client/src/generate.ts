@@ -1,6 +1,6 @@
 import { fileToPrompts } from './cache';
 import { readFileSync } from 'fs';
-import type { Prompts, GeneratedPrompt, TemplateObject } from '@rompt/types';
+import type { Prompts, GeneratedPrompt, TemplateObject } from '@romptai/types';
 
 interface GenerateSettings {
     promptFilePath: string;
