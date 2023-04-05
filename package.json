@@ -1,6 +1,6 @@
 {
-  "name": "@rompt/root",
-  "version": "1.0.4",
+  "name": "@romptai/root",
+  "version": "1.0.5",
   "description": "\"# Rompt\"",
   "workspaces": [
     "packages/*"
