@@ -80,7 +80,7 @@ export async function track(
             strippedResponse = {
                 model: response.model,
                 choices: JSON.stringify(response.choices),
-                responseType: 'openai.chatCompletion'
+                responseType: 'openai.completion'
             }
         }
     }
