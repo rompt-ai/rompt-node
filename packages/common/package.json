@@ -1,6 +1,6 @@
 {
   "name": "@romptai/common",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "build/index.js",
   "scripts": {
     "test": "ts-mocha --paths test/**/*.spec.ts --timeout 50000",
