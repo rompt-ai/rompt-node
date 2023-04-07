@@ -2,12 +2,12 @@
   "name": "@romptai/cli",
   "version": "1.0.13",
   "bin": {
-    "rompt": "./bin/bin.js",
-    "@romptai/cli": "./bin/bin.js"
+    "rompt": "./bin/index.js",
+    "@romptai/cli": "./bin/index.js"
   },
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
-    "build": "tsc -p ./tsconfig.json",
+    "build": "esbuild --platform=node --bundle ./src/index.ts --outdir=bin --minify --sourcemap",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
     "bump": "npm version patch --force"
   },
@@ -15,6 +15,7 @@
     "@romptai/common": "workspace:*",
     "@romptai/types": "workspace:*",
     "@types/node": "^18.15.5",
+    "esbuild": "^0.17.15",
     "typescript": "^5.0.2"
   },
   "dependencies": {
