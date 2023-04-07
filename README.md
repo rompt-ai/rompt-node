@@ -7,11 +7,9 @@
 </h2>
 
 <h4 align="center">
-    <img alt="Snyk vulnerabilities" src="https://shields.io/snyk/vulnerabilities/github/dilan-dio4/tulsa?style=flat-square" />
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/dilan-dio4/tulsa?style=flat-square">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/dilan-dio4/tulsa?style=flat-square">
-    <img alt="Bundlephobia min size" src="https://img.shields.io/bundlephobia/min/tulsa/core?style=flat-square">
-    <img alt="npms.io quality score" src="https://img.shields.io/npms-io/quality-score/tulsa?style=flat-square">
+    <img alt="Snyk vulnerabilities" src="https://shields.io/snyk/vulnerabilities/github/rompt-ai/rompt-node?style=flat-square" />
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/rompt-ai/rompt-node?style=flat-square">
+    <img alt="GitHub top language" src="https://img.shields.io/bundlephobia/minzip/@romptai/client?style=flat-square">
 </h4>
 
 <hr />
