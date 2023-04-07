@@ -9,6 +9,7 @@ interface GenerateSettings {
 
 export function generate(promptName: string, templateObject?: TemplateObject, options?: GenerateSettings): GeneratedPrompt {
     const { promptFilePath = 'prompts.json', version = 'latest' } = options || {};
+    const formattedTemplateObject = formatVariableKeysWithCurlies(templateObject);
 
     if (!fileToPrompts[promptFilePath]) {
         const fsPromptFile = readFileSync(promptFilePath, 'utf8');
@@ -25,15 +26,40 @@ export function generate(promptName: string, templateObject?: TemplateObject, op
     const { parts } = versions[versionNumber];
 
     return {
-        prompt: generateString(parts, templateObject || {}),
+        prompt: generateString(parts, formattedTemplateObject),
         metadata: {
             branchId,
             promptId,
             version: versionNumber,
-            template: templateObject || {},
+            template: formattedTemplateObject,
         },
     };
 }
+
+function formatVariableKeysWithCurlies(templateObject?: TemplateObject): TemplateObject {
+    const formattedOutput: TemplateObject = {};
+
+    if (!templateObject) {
+        return formattedOutput;
+    }
+
+    Object.keys(templateObject).forEach(key => {
+        let formattedKey = key;
+
+        if (!formattedKey.startsWith("{")) {
+            formattedKey = "{" + formattedKey;
+        }
+
+        if (!formattedKey.endsWith("}")) {
+            formattedKey = formattedKey + "}";
+        }
+
+        formattedOutput[formattedKey] = templateObject[key];
+    });
+
+    return formattedOutput;
+}
+
 
 type FlattenedItem = Prompts[keyof Prompts]['versions'][number]['parts'];
 
@@ -44,7 +70,7 @@ function generateString(items: FlattenedItem, variables: TemplateObject): string
         if (item.type === 'text') {
             result += item.content;
         } else if (item.type === 'variable') {
-            const variableValue = variables[`{${item.content}}`];
+            const variableValue = variables[item.content];
             if (variableValue !== undefined) {
                 result += variableValue;
             }

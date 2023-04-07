@@ -66,7 +66,6 @@ export async function track(
     response?: CreateChatCompletionResponse | CreateCompletionResponse,
     options: TrackOptions = {}
 ) {
-
     let strippedResponse: GeneratedPromptWithResponse['response'] = undefined;
 
     if (response) {

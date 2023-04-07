@@ -10,22 +10,44 @@ dotenv.config();
 
 // A .env file is required in the root of the project
 describe('Rompt Test', () => {
-    it('CLI Pull', async () => {
+    it('CLI Pull without branch', async () => {
         const arr = await pull({
             _env: 'staging',
-            _dry: true
+            _dry: false,
         });
         expect(arr['_errors']).toBeFalsy();
     });
 
-    it('Generate Prompt', async () => {
+    it('CLI Pull with branch', async () => {
+        const arr = await pull({
+            _env: 'staging',
+            _dry: false,
+            branch: 'main',
+        });
+        expect(arr['_errors']).toBeFalsy();
+    });
+
+
+    it('Generate Prompt With No Input', async () => {
         await pull({
             _env: 'staging',
             _dry: true,
         });
 
         const result = generate('test', {});
-        expect(typeof result.prompt).toBe('string');
+        expect(result.prompt).toBe('This prompt is for testing the client packages. The current package is ');
+    });
+
+    it('Generate Prompt With Input', async () => {
+        await pull({
+            _env: 'staging',
+            _dry: true,
+        });
+
+        const result = generate('test', {
+            "{LANG}": "TypeScript"
+        });
+        expect(result.prompt).toBe('This prompt is for testing the client packages. The current package is TypeScript');
     });
 
     it('Track Prompt Without Response', async () => {
@@ -34,7 +56,9 @@ describe('Rompt Test', () => {
             _dry: true,
         });
 
-        const result = generate('test', {});
+        const result = generate('test', {
+            "LANG": "TypeScript"
+        });
         const trackResponse = await track(result, undefined, { _env: 'staging' } as any);
 
         if (trackResponse) {
@@ -51,7 +75,9 @@ describe('Rompt Test', () => {
             _dry: true,
         });
 
-        const result = generate('test', {});
+        const result = generate('test', {
+            "LANG": "TypeScript"
+        });
 
         const openaiConfig = new OpenAIConfiguration({
             apiKey: process.env.OPENAI_API_KEY,
@@ -82,7 +108,9 @@ describe('Rompt Test', () => {
             _dry: true,
         });
 
-        const result = generate('test', {});
+        const result = generate('test', {
+            "LANG": "TypeScript"
+        });
 
         const openaiConfig = new OpenAIConfiguration({
             apiKey: process.env.OPENAI_API_KEY,
