@@ -1,13 +1,14 @@
 {
   "name": "@romptai/cli",
   "version": "1.0.14",
+  "description": "Node.js library to interact with the Rompt API and CLI",
   "bin": {
     "rompt": "./bin/index.js",
     "@romptai/cli": "./bin/index.js"
   },
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
-    "build": "esbuild --platform=node --bundle ./src/index.ts --outdir=bin --minify --sourcemap",
+    "build": "esbuild --platform=node --bundle ./src/index.ts --outdir=bin --minify --sourcemap --tsconfig=./tsconfig.json",
     "clean": "shx rm -rf build pnpm-lock.yaml node_modules tsconfig.package.tsbuildinfo",
     "bump": "npm version patch --force"
   },

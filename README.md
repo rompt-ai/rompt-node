@@ -33,7 +33,8 @@ Installation
 Pull your prompts into your codebase using the CLI:
 
 ```bash
-npx @romptai/cli pull --token {YOUR_TOKEN}
+npm i -g @romptai/cli
+rompt pull --token {YOUR_TOKEN}
 ```
 
 Install the client library:

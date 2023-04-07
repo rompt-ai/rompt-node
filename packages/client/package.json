@@ -1,6 +1,7 @@
 {
   "name": "@romptai/client",
   "version": "1.0.14",
+  "description": "Node.js library to interact with the Rompt API",
   "main": "build/index.js",
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
