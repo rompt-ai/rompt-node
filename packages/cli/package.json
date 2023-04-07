@@ -1,6 +1,6 @@
 {
   "name": "@romptai/cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "bin": {
     "rompt": "./bin/index.js",
     "@romptai/cli": "./bin/index.js"
