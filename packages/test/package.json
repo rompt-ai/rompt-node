@@ -1,6 +1,6 @@
 {
   "name": "@romptai/test",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "build/index.js",
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",

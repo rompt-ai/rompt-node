@@ -1,7 +1,10 @@
 {
   "name": "@romptai/cli",
-  "version": "1.0.12",
-  "bin": "build/bin.js",
+  "version": "1.0.13",
+  "bin": {
+    "rompt": "./bin/bin.js",
+    "@romptai/cli": "./bin/bin.js"
+  },
   "scripts": {
     "prebuild": "shx rm -f tsconfig.package.tsbuildinfo",
     "build": "tsc -p ./tsconfig.json",
